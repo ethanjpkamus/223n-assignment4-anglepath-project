@@ -13,13 +13,21 @@ public class ricochetballuserinterface : Form {
 	//constants
 	private const int MAXIMUM_FORM_WIDTH = 1000;
 	private const int MAXIMUM_FORM_HEIGHT = 800;
-	private const int BALL_OFFSET = 50;
-	private const int FORM_X_CENTER = (MAXIMUM_FORM_WIDTH / 2) - BALL_OFFSET;
-	private const int FORM_Y_CENTER = (MAXIMUM_FORM_HEIGHT / 2) - BALL_OFFSET;
+	private const int BALL_RADIUS = 50;
+	private const int FORM_X_CENTER = (MAXIMUM_FORM_WIDTH / 2) - BALL_RADIUS;
+	private const int FORM_Y_CENTER = (MAXIMUM_FORM_HEIGHT / 2) - BALL_RADIUS;
 
 	//variables
 	private int ball_xpos = FORM_X_CENTER;
 	private int ball_ypos = FORM_Y_CENTER;
+	private int delta_x = 0;
+	private int delta_y = 0;
+
+	private double speed = 1.0;
+	private double angle = 1.0;
+	private double pix_per_tic = 1.0;
+
+	private bool once = true;
 
 	//items to be used in the user interface
 	private Button play_pause_button = new Button();
@@ -45,7 +53,7 @@ public class ricochetballuserinterface : Form {
 		ui_clock.Enabled = true;
 		ui_clock.AutoReset = true;
 
-		ball_clock.Interval = 33;
+		ball_clock.Interval = 20;
 		ball_clock.Enabled = false;
 		ball_clock.AutoReset = true;
 
@@ -54,6 +62,9 @@ public class ricochetballuserinterface : Form {
 		play_pause_button.Text = "GO!";
 		reset_button.Text = "RESET";
 		exit_button.Text = "EXIT";
+
+		speed_input_box.Text = "pix/sec";
+		angle_input_box.Text = "degrees";
 
 		play_pause_button.Size = new Size(75,30);
             	reset_button.Size = new Size(75,30);
@@ -73,6 +84,9 @@ public class ricochetballuserinterface : Form {
             	Controls.Add(label_xpos);
             	Controls.Add(label_ypos);
 
+		Controls.Add(speed_input_box);
+		Controls.Add(angle_input_box);
+
 		//timer eventhandlers
             	ui_clock.Elapsed += new ElapsedEventHandler(update_ui);
 	       ball_clock.Elapsed += new ElapsedEventHandler(update_ball_pos);
@@ -88,7 +102,7 @@ public class ricochetballuserinterface : Form {
 
 		Graphics graph = e.Graphics;
 
-
+		graph.FillEllipse(brushes.Red,ball_xpos,ball_ypos,2*BALL_RADIUS,2*BALL_RADIUS);
 
 	} //end of OnPaint override
 
@@ -100,23 +114,42 @@ public class ricochetballuserinterface : Form {
 
 	protected void update_ball_pos(Object o, ElapsedEventArgs e){
 
+		manage_delta();
+		ball_xpos += delta_x;
+		ball_ypos += delta_y;
+
 	} //end of update_ball_pos
 
 	protected void update_play_pause(Object o, EventArgs e){
 
 		ball_clock.Enabled = !ball_clock.Enabled;
 
-		//get user input for speed from TextBox
+		//change the text of the Button
+		if(ball_clock.Enabled){
+			play_pause_button.Text = "Pause";
+		} else {
+			play_pause_button.Text = "Play";
+		}
 
-		//get user input for angle from TextBox
+		if(once){
+			once = false;
+			speed = Double.Parse(speed_input_box.Text);
+			angle = Double.Parse(angle_input_box.Text);
+			pix_per_tic = speed / (ball_clock.Interval * 1000);
+		}
 
 	} //end of update_play_pause
 
 	protected void update_reset(Object o, EventArgs e){
 
 		ball_clock.Enabled = false;
+		once = true;
 		ball_xpos = FORM_X_CENTER;
 		ball_ypos = FORM_Y_CENTER;
+
+		//reset textboxes
+		speed_input_box.Text = "pix/sec";
+		angle_input_box.Text = "degrees";
 
 	} //end of update_reset
 
@@ -125,5 +158,19 @@ public class ricochetballuserinterface : Form {
 		Close();
 
 	} //end of update_exit
+
+	private void manage_delta(){
+
+		//check for ricochet
+		if(ball_xpos == 0){
+
+		} else if(ball_xpos == (MAXIMUM_FORM_WIDTH - (2*BALL_RADIUS))){
+
+		} else if(){
+
+		} else if(){
+
+		}
+	} //end of manage delta
 
 } //end of ricochetballuserinterface implementation
