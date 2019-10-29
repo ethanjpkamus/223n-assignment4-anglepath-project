@@ -12,10 +12,10 @@ public class ricochetballuserinterface : Form {
 
 	//constants
 	private const int MAXIMUM_FORM_WIDTH = 1000;
-	private const int MAXIMUM_FORM_HEIGHT = 800;
-	private const int BALL_RADIUS = 50;
+	private const int MAXIMUM_FORM_HEIGHT = 800; //inner rectangle is 500
+	private const int BALL_RADIUS = 20;
 	private const int FORM_X_CENTER = (MAXIMUM_FORM_WIDTH / 2) - BALL_RADIUS;
-	private const int FORM_Y_CENTER = (MAXIMUM_FORM_HEIGHT / 2) - BALL_RADIUS;
+	private const int FORM_Y_CENTER = (MAXIMUM_FORM_HEIGHT / 2) - 50 - BALL_RADIUS;
 
 	//variables
 	private int ball_xpos = FORM_X_CENTER;
@@ -23,8 +23,8 @@ public class ricochetballuserinterface : Form {
 	private int delta_x = 0;
 	private int delta_y = 0;
 
-	private double speed = 1.0;
-	private double angle = 1.0;
+	private double speed = 10.0;
+	private double angle = 30.0;
 	private double pix_per_tic = 1.0;
 
 	private bool once = true;
@@ -66,17 +66,30 @@ public class ricochetballuserinterface : Form {
 		speed_input_box.Text = "pix/sec";
 		angle_input_box.Text = "degrees";
 
+		label_xpos.Text = "X-Pos: Center";
+		label_ypos.Text = "Y-Pos: Center";
+
 		play_pause_button.Size = new Size(75,30);
             	reset_button.Size = new Size(75,30);
             	exit_button.Size = new Size(75,30);
+		speed_input_box.Size = new Size(75,30);
+		angle_input_box.Size = new Size(75,30);
             	label_xpos.Size = new Size(75,30);
             	label_ypos.Size = new Size(75,30);
 
-		play_pause_button.Location = new Point(0,0);
-            	reset_button.Location = new Point(0,40);
-            	exit_button.Location = new Point(0,80);
-            	label_xpos.Location = new Point(0,120);
-            	label_ypos.Location = new Point(0,160);
+		play_pause_button.Location = new Point(0,650);
+            	reset_button.Location = new Point(100,650);
+            	exit_button.Location = new Point(200,650);
+		speed_input_box.Location = new Point(300,650);
+		angle_input_box.Location = new Point(400,650);
+            	label_xpos.Location = new Point(500,600);
+            	label_ypos.Location = new Point(500,700);
+
+		label_xpos.BackColor = Color.Green;
+		label_xpos.ForeColor = Color.Yellow;
+
+		label_ypos.BackColor = Color.Green;
+		label_ypos.ForeColor = Color.Yellow;
 
 		Controls.Add(play_pause_button);
             	Controls.Add(reset_button);
@@ -85,7 +98,8 @@ public class ricochetballuserinterface : Form {
             	Controls.Add(label_ypos);
 
 		Controls.Add(speed_input_box);
-		Controls.Add(angle_input_box);
+		Controls.Add(angle_input_box);label_xpos.BackColor = Color.Green;
+		label_xpos.ForeColor = Color.Yellow;
 
 		//timer eventhandlers
             	ui_clock.Elapsed += new ElapsedEventHandler(update_ui);
@@ -102,7 +116,12 @@ public class ricochetballuserinterface : Form {
 
 		Graphics graph = e.Graphics;
 
-		graph.FillEllipse(brushes.Red,ball_xpos,ball_ypos,2*BALL_RADIUS,2*BALL_RADIUS);
+		graph.FillEllipse(Brushes.Red,ball_xpos,ball_ypos,2*BALL_RADIUS,2*BALL_RADIUS);
+		graph.FillRectangle(Brushes.Yellow,0,0,1000,100);
+		graph.FillRectangle(Brushes.Green,0,600,1000,200);
+
+		label_xpos.Text = "X-Pos: " + (ball_xpos + BALL_RADIUS).ToString();
+		label_ypos.Text = "Y-Pos: " + (ball_ypos + BALL_RADIUS).ToString();
 
 	} //end of OnPaint override
 
@@ -114,28 +133,31 @@ public class ricochetballuserinterface : Form {
 
 	protected void update_ball_pos(Object o, ElapsedEventArgs e){
 
-		manage_delta();
+		check_collision();
 		ball_xpos += delta_x;
-		ball_ypos += delta_y;
+		ball_ypos -= delta_y;
 
 	} //end of update_ball_pos
 
 	protected void update_play_pause(Object o, EventArgs e){
-
-		ball_clock.Enabled = !ball_clock.Enabled;
-
-		//change the text of the Button
-		if(ball_clock.Enabled){
-			play_pause_button.Text = "Pause";
-		} else {
-			play_pause_button.Text = "Play";
-		}
 
 		if(once){
 			once = false;
 			speed = Double.Parse(speed_input_box.Text);
 			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
+
+			delta_x = (int)(System.Math.Sin(angle) * pix_per_tic);
+			delta_y = (int)(System.Math.Cos(angle) * pix_per_tic);
+		}
+
+		ball_clock.Enabled = !(ball_clock.Enabled);
+
+		//change the text of the Button
+		if(ball_clock.Enabled){
+			play_pause_button.Text = "Pause";
+		} else {
+			play_pause_button.Text = "Play";
 		}
 
 	} //end of update_play_pause
@@ -159,17 +181,21 @@ public class ricochetballuserinterface : Form {
 
 	} //end of update_exit
 
-	private void manage_delta(){
+	private void check_collision(){
 
 		//check for ricochet
 		if(ball_xpos == 0){
-
+		//left side of window
+			delta_x = -1 * delta_x;
 		} else if(ball_xpos == (MAXIMUM_FORM_WIDTH - (2*BALL_RADIUS))){
-
-		} else if(){
-
-		} else if(){
-
+		//right side of window
+			delta_x = -1 * delta_x;
+		} else if(ball_ypos == 0){
+		//top of window
+			delta_y = -1 * delta_y;
+		} else if(ball_ypos == (MAXIMUM_FORM_HEIGHT - (2*BALL_RADIUS))){
+		//bottom of window
+			delta_y = -1 * delta_y;
 		}
 	} //end of manage delta
 
