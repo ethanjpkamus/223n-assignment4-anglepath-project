@@ -25,7 +25,7 @@ public class ricochetballuserinterface : Form {
 
 	private double speed = 10.0;
 	private double angle = 30.0;
-	private double pix_per_tic = 1.0;
+	private double pix_per_tic = 15.0;
 
 	private bool once = true;
 
@@ -39,6 +39,8 @@ public class ricochetballuserinterface : Form {
 
 	private Label label_xpos = new Label();
 	private Label label_ypos = new Label();
+	private Label label_speed = new Label();
+	private Label label_angle = new Label();
 
 	private static System.Timers.Timer ui_clock = new System.Timers.Timer();
 	private static System.Timers.Timer ball_clock = new System.Timers.Timer();
@@ -49,11 +51,11 @@ public class ricochetballuserinterface : Form {
 		MaximumSize = new Size(MAXIMUM_FORM_WIDTH,MAXIMUM_FORM_HEIGHT);
 		MinimumSize = new Size(MAXIMUM_FORM_WIDTH,MAXIMUM_FORM_HEIGHT);
 
-		ui_clock.Interval = 33;
+		ui_clock.Interval = 33.3; //30 Hz
 		ui_clock.Enabled = true;
 		ui_clock.AutoReset = true;
 
-		ball_clock.Interval = 20;
+		ball_clock.Interval = 16.6; //60 Hz
 		ball_clock.Enabled = false;
 		ball_clock.AutoReset = true;
 
@@ -66,8 +68,10 @@ public class ricochetballuserinterface : Form {
 		speed_input_box.Text = "pix/sec";
 		angle_input_box.Text = "degrees";
 
-		label_xpos.Text = "X-Pos: Center";
-		label_ypos.Text = "Y-Pos: Center";
+		label_xpos.Text = "X: Center";
+		label_ypos.Text = "Y: Center";
+		label_speed.Text = "Speed (decimal)";
+		label_angle.Text = "Angle (decimal)";
 
 		play_pause_button.Size = new Size(75,30);
             	reset_button.Size = new Size(75,30);
@@ -76,6 +80,8 @@ public class ricochetballuserinterface : Form {
 		angle_input_box.Size = new Size(75,30);
             	label_xpos.Size = new Size(75,30);
             	label_ypos.Size = new Size(75,30);
+		label_speed.Size = new Size(75,30);
+		label_angle.Size = new Size(75,30);
 
 		play_pause_button.Location = new Point(0,650);
             	reset_button.Location = new Point(100,650);
@@ -84,22 +90,24 @@ public class ricochetballuserinterface : Form {
 		angle_input_box.Location = new Point(400,650);
             	label_xpos.Location = new Point(500,600);
             	label_ypos.Location = new Point(500,700);
+		label_speed.Location = new Point(300,525);
+		label_angle.Location = new Point(400,525);
 
 		label_xpos.BackColor = Color.Green;
-		label_xpos.ForeColor = Color.Yellow;
+		label_xpos.ForeColor = Color.White;
 
 		label_ypos.BackColor = Color.Green;
-		label_ypos.ForeColor = Color.Yellow;
+		label_ypos.ForeColor = Color.White;
 
 		Controls.Add(play_pause_button);
             	Controls.Add(reset_button);
             	Controls.Add(exit_button);
             	Controls.Add(label_xpos);
             	Controls.Add(label_ypos);
-
+		Controls.Add(label_speed);
+            	Controls.Add(label_angle);
 		Controls.Add(speed_input_box);
-		Controls.Add(angle_input_box);label_xpos.BackColor = Color.Green;
-		label_xpos.ForeColor = Color.Yellow;
+		Controls.Add(angle_input_box);
 
 		//timer eventhandlers
             	ui_clock.Elapsed += new ElapsedEventHandler(update_ui);
@@ -120,8 +128,8 @@ public class ricochetballuserinterface : Form {
 		graph.FillRectangle(Brushes.Yellow,0,0,1000,100);
 		graph.FillRectangle(Brushes.Green,0,600,1000,200);
 
-		label_xpos.Text = "X-Pos: " + (ball_xpos + BALL_RADIUS).ToString();
-		label_ypos.Text = "Y-Pos: " + (ball_ypos + BALL_RADIUS).ToString();
+		label_xpos.Text = "X: " + (ball_xpos + BALL_RADIUS).ToString();
+		label_ypos.Text = "Y: " + (ball_ypos + BALL_RADIUS).ToString();
 
 	} //end of OnPaint override
 
@@ -182,6 +190,9 @@ public class ricochetballuserinterface : Form {
 		//reset textboxes
 		speed_input_box.Text = "pix/sec";
 		angle_input_box.Text = "degrees";
+
+		label_xpos.Text = "X: Center";
+		label_ypos.Text = "Y: Center";
 
 	} //end of update_reset
 
