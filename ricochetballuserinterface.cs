@@ -124,7 +124,11 @@ public class ricochetballuserinterface : Form {
 
 		Graphics graph = e.Graphics;
 
-		graph.FillEllipse(Brushes.Red,(int)(ball_xpos),(int)(ball_ypos),2*BALL_RADIUS,2*BALL_RADIUS);
+		graph.FillEllipse(Brushes.Red,
+				    static_cast<int>(ball_xpos),
+				    static_cast<int>(ball_ypos),
+				    2*BALL_RADIUS,2*BALL_RADIUS);
+
 		graph.FillRectangle(Brushes.Yellow,0,0,1000,100);
 		graph.FillRectangle(Brushes.Green,0,600,1000,200);
 
