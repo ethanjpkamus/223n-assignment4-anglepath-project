@@ -20,8 +20,8 @@ public class ricochetballuserinterface : Form {
 	//variables
 	private double ball_xpos = FORM_X_CENTER;
 	private double ball_ypos = FORM_Y_CENTER;
-	private double delta_x = 0;
-	private double delta_y = 0;
+	private double delta_x = 0.0;
+	private double delta_y = 0.0;
 
 	private double speed = 10.0;
 	private double angle = 30.0;
@@ -151,8 +151,8 @@ public class ricochetballuserinterface : Form {
 			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
-			delta_x = (int)(System.Math.Sin(angle) * pix_per_tic);
-			delta_y = (int)(System.Math.Cos(angle) * pix_per_tic * -1);
+			delta_x = (double)(System.Math.Sin(angle) * pix_per_tic);
+			delta_y = (double)(System.Math.Cos(angle) * pix_per_tic * -1);
 			once = false;
 		}
 
