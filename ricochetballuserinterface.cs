@@ -65,9 +65,6 @@ public class ricochetballuserinterface : Form {
 		reset_button.Text = "RESET";
 		exit_button.Text = "EXIT";
 
-		//speed_input_box.Text = "pix/sec";
-		//angle_input_box.Text = "degrees";
-
 		label_xpos.Text = "X: Center";
 		label_ypos.Text = "Y: Center";
 		label_speed.Text = "Speed (decimal)";
@@ -95,9 +92,12 @@ public class ricochetballuserinterface : Form {
 
 		label_xpos.BackColor = Color.Green;
 		label_xpos.ForeColor = Color.White;
-
 		label_ypos.BackColor = Color.Green;
 		label_ypos.ForeColor = Color.White;
+		label_speed.BackColor = Color.Green;
+		label_speed.ForeColor = Color.White;
+		label_angle.BackColor = Color.Green;
+		label_angle.ForeColor = Color.White;
 
 		Controls.Add(play_pause_button);
             	Controls.Add(reset_button);
@@ -160,7 +160,7 @@ public class ricochetballuserinterface : Form {
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
 			delta_x = (double)(System.Math.Sin(angle) * pix_per_tic);
-			delta_y = (double)(System.Math.Cos(angle) * pix_per_tic * -1);
+			delta_y = (double)(System.Math.Cos(angle) * pix_per_tic);
 			once = false;
 		}
 
@@ -188,9 +188,6 @@ public class ricochetballuserinterface : Form {
 		ball_ypos = FORM_Y_CENTER;
 
 		//reset textboxes
-		//speed_input_box.Text = "pix/sec";
-		//angle_input_box.Text = "degrees";
-
 		label_xpos.Text = "X: Center";
 		label_ypos.Text = "Y: Center";
 
