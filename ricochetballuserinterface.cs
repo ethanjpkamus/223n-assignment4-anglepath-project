@@ -159,8 +159,8 @@ public class ricochetballuserinterface : Form {
 			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
-			delta_x = (double)(System.Math.Sin(angle) * pix_per_tic);
-			delta_y = (double)(System.Math.Cos(angle) * pix_per_tic);
+			delta_x = (double)(System.Math.Cos(angle) * pix_per_tic);
+			delta_y = (double)(System.Math.Sin(angle) * pix_per_tic);
 			once = false;
 		}
 
@@ -203,19 +203,18 @@ public class ricochetballuserinterface : Form {
 	//checks if the ball has hit one of the edges of the rectangle
 	private void check_collision(){
 
-		//check for ricochet
 		if(ball_xpos == 0){
 		//left side of window
-			delta_x = -1 * delta_x;
+			delta_x = -1.0 * delta_x;
 		} else if(ball_xpos == (MAXIMUM_FORM_WIDTH - (2*BALL_RADIUS))){
 		//right side of window
-			delta_x = -1 * delta_x;
+			delta_x = -1.0 * delta_x;
 		} else if(ball_ypos == 0){
 		//top of window
-			delta_y = -1 * delta_y;
+			delta_y = -1.0 * delta_y;
 		} else if(ball_ypos == (MAXIMUM_FORM_HEIGHT - (2*BALL_RADIUS))){
 		//bottom of window
-			delta_y = -1 * delta_y;
+			delta_y = -1.0 * delta_y;
 		}
 	} //end of manage delta
 
