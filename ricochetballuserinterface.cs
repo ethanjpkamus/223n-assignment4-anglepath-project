@@ -51,24 +51,26 @@ public class ricochetballuserinterface : Form {
 		MaximumSize = new Size(MAXIMUM_FORM_WIDTH,MAXIMUM_FORM_HEIGHT);
 		MinimumSize = new Size(MAXIMUM_FORM_WIDTH,MAXIMUM_FORM_HEIGHT);
 
-		ui_clock.Interval = 33.3; //30 Hz
+		Text = "Ricochet Ball Project by: Ethan Kamus";
+
+		BackColor = Color.White;
+
+		ui_clock.Interval = 33.3; //30 Hz (tic/sec)
 		ui_clock.Enabled = true;
 		ui_clock.AutoReset = true;
 
-		ball_clock.Interval = 16.6; //60 Hz
+		ball_clock.Interval = 16.6; //60 Hz (tic/sec)
 		ball_clock.Enabled = false;
 		ball_clock.AutoReset = true;
-
-		Text = "Ricochet Ball Project by: Ethan Kamus";
 
 		play_pause_button.Text = "GO!";
 		reset_button.Text = "RESET";
 		exit_button.Text = "EXIT";
 
-		label_xpos.Text = "X: Center";
-		label_ypos.Text = "Y: Center";
-		label_speed.Text = "Speed (decimal)";
-		label_angle.Text = "Angle (decimal)";
+		label_xpos.Text = "X: CENTER";
+		label_ypos.Text = "Y: CENTER";
+		label_speed.Text = "SPEED (pix/sec)";
+		label_angle.Text = "ANGLE (degrees)";
 
 		play_pause_button.Size = new Size(75,30);
             	reset_button.Size = new Size(75,30);
@@ -125,8 +127,8 @@ public class ricochetballuserinterface : Form {
 		Graphics graph = e.Graphics;
 
 		graph.FillEllipse(Brushes.Red,
-				    static_cast<int>(ball_xpos),
-				    static_cast<int>(ball_ypos),
+				    (int)(ball_xpos),
+				    (int)(ball_ypos),
 				    2*BALL_RADIUS,2*BALL_RADIUS);
 
 		graph.FillRectangle(Brushes.Yellow,0,0,1000,100);
@@ -147,9 +149,24 @@ public class ricochetballuserinterface : Form {
 	//executes when the ball_clock elapses
 	protected void update_ball_pos(Object o, ElapsedEventArgs e){
 
-		check_collision();
+
+		//check for collision
+		if(ball_xpos <= 0){
+		//left side of window
+			delta_x = -1.0 * delta_x;
+		} else if(ball_xpos >= (MAXIMUM_FORM_WIDTH - (2*BALL_RADIUS))){
+		//right side of window
+			delta_x = -1.0 * delta_x;
+		} else if(ball_ypos >= 0){
+		//top of window
+			delta_y = -1.0 * delta_y;
+		} else if(ball_ypos <= (MAXIMUM_FORM_HEIGHT - (2*BALL_RADIUS))){
+		//bottom of window
+			delta_y = -1.0 * delta_y;
+		}
+
 		ball_xpos += delta_x;
-		ball_ypos += delta_y;
+		ball_ypos -= delta_y;
 
 	} //end of update_ball_pos
 
@@ -173,11 +190,11 @@ public class ricochetballuserinterface : Form {
 		//change the text of the Button
 		if(ball_clock.Enabled){
 
-			play_pause_button.Text = "Pause";
+			play_pause_button.Text = "PAUSE";
 
 		} else {
 
-			play_pause_button.Text = "Play";
+			play_pause_button.Text = "PLAY";
 
 		}
 
@@ -192,8 +209,10 @@ public class ricochetballuserinterface : Form {
 		ball_ypos = FORM_Y_CENTER;
 
 		//reset textboxes
-		label_xpos.Text = "X: Center";
-		label_ypos.Text = "Y: Center";
+		label_xpos.Text = "X: CENTER";
+		label_ypos.Text = "Y: CENTER";
+
+		play_pause_button.Text = "GO!";
 
 	} //end of update_reset
 
@@ -203,23 +222,5 @@ public class ricochetballuserinterface : Form {
 		Close();
 
 	} //end of update_exit
-
-	//checks if the ball has hit one of the edges of the rectangle
-	private void check_collision(){
-
-		if(ball_xpos == 0){
-		//left side of window
-			delta_x = -1.0 * delta_x;
-		} else if(ball_xpos == (MAXIMUM_FORM_WIDTH - (2*BALL_RADIUS))){
-		//right side of window
-			delta_x = -1.0 * delta_x;
-		} else if(ball_ypos == 0){
-		//top of window
-			delta_y = -1.0 * delta_y;
-		} else if(ball_ypos == (MAXIMUM_FORM_HEIGHT - (2*BALL_RADIUS))){
-		//bottom of window
-			delta_y = -1.0 * delta_y;
-		}
-	} //end of manage delta
 
 } //end of ricochetballuserinterface implementation
