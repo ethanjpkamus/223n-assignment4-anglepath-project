@@ -125,43 +125,53 @@ public class ricochetballuserinterface : Form {
 
 	} //end of OnPaint override
 
+	//executes when the ui_clock elapses
 	protected void update_ui(Object o, ElapsedEventArgs e){
 
 		Invalidate();
 
 	} //end of update_ui
 
+	//executes when the ball_clock elapses
 	protected void update_ball_pos(Object o, ElapsedEventArgs e){
 
 		check_collision();
 		ball_xpos += delta_x;
-		ball_ypos -= delta_y;
+		ball_ypos += delta_y;
 
 	} //end of update_ball_pos
 
+	//executes when the play_pause_button is clicked
 	protected void update_play_pause(Object o, EventArgs e){
 
 		if(once){
-			once = false;
+		//will only execute once when the user enters a speed and angle
+
 			speed = Double.Parse(speed_input_box.Text);
 			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
 			delta_x = (int)(System.Math.Sin(angle) * pix_per_tic);
-			delta_y = (int)(System.Math.Cos(angle) * pix_per_tic);
+			delta_y = (int)(System.Math.Cos(angle) * pix_per_tic * -1);
+			once = false;
 		}
 
 		ball_clock.Enabled = !(ball_clock.Enabled);
 
 		//change the text of the Button
 		if(ball_clock.Enabled){
+
 			play_pause_button.Text = "Pause";
+
 		} else {
+
 			play_pause_button.Text = "Play";
+
 		}
 
 	} //end of update_play_pause
 
+	//executes when the reset_button is clicked
 	protected void update_reset(Object o, EventArgs e){
 
 		ball_clock.Enabled = false;
@@ -175,12 +185,14 @@ public class ricochetballuserinterface : Form {
 
 	} //end of update_reset
 
+	//executes when the exit_button is clicked
 	protected void update_exit(Object o, EventArgs e){
 
 		Close();
 
 	} //end of update_exit
 
+	//checks if the ball has hit one of the edges of the rectangle
 	private void check_collision(){
 
 		//check for ricochet
