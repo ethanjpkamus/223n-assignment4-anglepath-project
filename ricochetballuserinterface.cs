@@ -18,10 +18,10 @@ public class ricochetballuserinterface : Form {
 	private const int FORM_Y_CENTER = (MAXIMUM_FORM_HEIGHT / 2) - 50 - BALL_RADIUS;
 
 	//variables
-	private int ball_xpos = FORM_X_CENTER;
-	private int ball_ypos = FORM_Y_CENTER;
-	private int delta_x = 0;
-	private int delta_y = 0;
+	private double ball_xpos = FORM_X_CENTER;
+	private double ball_ypos = FORM_Y_CENTER;
+	private double delta_x = 0;
+	private double delta_y = 0;
 
 	private double speed = 10.0;
 	private double angle = 30.0;
@@ -116,7 +116,7 @@ public class ricochetballuserinterface : Form {
 
 		Graphics graph = e.Graphics;
 
-		graph.FillEllipse(Brushes.Red,ball_xpos,ball_ypos,2*BALL_RADIUS,2*BALL_RADIUS);
+		graph.FillEllipse(Brushes.Red,(int)(ball_xpos),(int)(ball_ypos),2*BALL_RADIUS,2*BALL_RADIUS);
 		graph.FillRectangle(Brushes.Yellow,0,0,1000,100);
 		graph.FillRectangle(Brushes.Green,0,600,1000,200);
 
