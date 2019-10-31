@@ -85,8 +85,8 @@ public class ricochetballuserinterface : Form {
 		play_pause_button.Location = new Point(0,650);
             	reset_button.Location = new Point(100,650);
             	exit_button.Location = new Point(200,650);
-		speed_input_box.Location = new Point(300,600);
-		angle_input_box.Location = new Point(400,600);
+		speed_input_box.Location = new Point(300,650);
+		angle_input_box.Location = new Point(400,650);
 
             	label_xpos.Location = new Point(500,600);
             	label_ypos.Location = new Point(500,700);
