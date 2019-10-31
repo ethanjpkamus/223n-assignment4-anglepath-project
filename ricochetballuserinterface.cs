@@ -183,8 +183,6 @@ public class ricochetballuserinterface : Form {
 		if(once){
 		//will only execute once when the user enters a speed and angle
 
-			speed = Double.Parse(speed_input_box.Text);
-			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
 			//check angle
@@ -196,14 +194,16 @@ public class ricochetballuserinterface : Form {
 
 			} else if(angle > 270.0 && angle < 360.0){
 
-			} else {
-
 				angle = 360 - angle;
 				delta_x = System.Math.Cos(angle) * pix_per_tic * -1;
 				delta_y = System.Math.Sin(angle) * pix_per_tic;
+
+			} else {
+
+				speed = Double.Parse(speed_input_box.Text);
+				angle = Double.Parse(angle_input_box.Text);
+
 			}
-
-
 
 			once = false;
 		}
