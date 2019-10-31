@@ -87,27 +87,34 @@ public class ricochetballuserinterface : Form {
             	exit_button.Location = new Point(200,650);
 		speed_input_box.Location = new Point(300,650);
 		angle_input_box.Location = new Point(400,650);
+
             	label_xpos.Location = new Point(500,600);
             	label_ypos.Location = new Point(500,700);
-		label_speed.Location = new Point(300,600);
-		label_angle.Location = new Point(400,600);
+
+		label_speed.Location = new Point(300,630);
+		label_angle.Location = new Point(400,630);
 
 		label_xpos.BackColor = Color.Green;
 		label_xpos.ForeColor = Color.White;
+
 		label_ypos.BackColor = Color.Green;
 		label_ypos.ForeColor = Color.White;
+
 		label_speed.BackColor = Color.Green;
 		label_speed.ForeColor = Color.White;
+
 		label_angle.BackColor = Color.Green;
 		label_angle.ForeColor = Color.White;
 
 		Controls.Add(play_pause_button);
             	Controls.Add(reset_button);
             	Controls.Add(exit_button);
+
             	Controls.Add(label_xpos);
             	Controls.Add(label_ypos);
 		Controls.Add(label_speed);
             	Controls.Add(label_angle);
+
 		Controls.Add(speed_input_box);
 		Controls.Add(angle_input_box);
 
@@ -166,7 +173,7 @@ public class ricochetballuserinterface : Form {
 		}
 
 		ball_xpos += delta_x;
-		ball_ypos -= delta_y;
+		ball_ypos += delta_y;
 
 	} //end of update_ball_pos
 
@@ -180,8 +187,24 @@ public class ricochetballuserinterface : Form {
 			angle = Double.Parse(angle_input_box.Text);
 			pix_per_tic = speed / (ball_clock.Interval * 1000);
 
-			delta_x = (double)(System.Math.Cos(angle) * pix_per_tic);
-			delta_y = (double)(System.Math.Sin(angle) * pix_per_tic);
+			//check angle
+			if(angle > 180.0 && angle < 270.0){
+
+				angle = angle - 180;
+				delta_x = System.Math.Cos(angle) * pix_per_tic * -1;
+				delta_y = System.Math.Sin(angle) * pix_per_tic * -1;
+
+			} else if(angle > 270.0 && angle < 360.0){
+
+			} else {
+
+				angle = 360 - angle;
+				delta_x = System.Math.Cos(angle) * pix_per_tic * -1;
+				delta_y = System.Math.Sin(angle) * pix_per_tic;
+			}
+
+
+
 			once = false;
 		}
 
